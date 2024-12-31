@@ -1,4 +1,3 @@
-```markdown
 # YT-DLP GUI
 
 YT-DLP GUI là một ứng dụng giao diện người dùng đơn giản giúp bạn tải xuống video hoặc playlist từ YouTube một cách dễ dàng. Ứng dụng hỗ trợ xác thực thông qua tệp cookies, hiển thị tiến trình tải xuống trong giao diện, và bỏ qua các tệp video đã tồn tại để tránh ghi đè.
