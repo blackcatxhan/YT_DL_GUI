@@ -6,7 +6,6 @@ on:
 
 permissions:
   contents: write
-  # Các quyền khác nếu cần
 
 jobs:
   build:
@@ -19,7 +18,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'  # Thay thế bằng phiên bản Python bạn sử dụng
+          python-version: '3.13.1'
 
       - name: Install Dependencies
         run: |
