@@ -1,0 +1,62 @@
+name: Build EXE for YT-DLP GUI
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types: [created]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13.1'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install yt-dlp pyinstaller
+
+      - name: Build EXE Có Console
+        run: |
+          pyinstaller --onefile --console --name yt_dlp_gui_console yt_dlp_gui.py
+        shell: cmd
+
+      - name: Build EXE Không Console
+        run: |
+          pyinstaller --onefile --noconsole --name yt_dlp_gui_no_console yt_dlp_gui.py
+        shell: cmd
+
+      - name: Upload Artifacts for Push
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v3
+        with:
+          name: yt_dlp_gui-exe
+          path: |
+            dist/yt_dlp_gui_console.exe
+            dist/yt_dlp_gui_no_console.exe
+
+      - name: Upload Release Assets
+        if: github.event_name == 'release'
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: |
+            dist/yt_dlp_gui_console.exe
+            dist/yt_dlp_gui_no_console.exe
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: ${{ github.event.release.name }}
+          tag: ${{ github.event.release.tag_name }}
+          body: ${{ github.event.release.body }}
+          draft: false
+          prerelease: false
