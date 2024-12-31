@@ -38,15 +38,6 @@ jobs:
           pyinstaller --onefile --noconsole --name yt_dlp_gui_no_console yt_dlp_gui.py
         shell: cmd
 
-      - name: Upload Artifacts for Push
-        if: github.event_name == 'push'
-        uses: actions/upload-artifact@v3
-        with:
-          name: yt_dlp_gui-exe
-          path: |
-            dist/yt_dlp_gui_console.exe
-            dist/yt_dlp_gui_no_console.exe
-
       - name: Upload Release Assets
         if: github.event_name == 'release'
         uses: ncipollo/release-action@v1
@@ -60,3 +51,15 @@ jobs:
           body: ${{ github.event.release.body }}
           draft: false
           prerelease: false
+          generateReleaseNotes: false
+          makeLatest: legacy
+          omitBody: false
+          omitBodyDuringUpdate: false
+          omitDraftDuringUpdate: false
+          omitName: false
+          omitNameDuringUpdate: false
+          omitPrereleaseDuringUpdate: false
+          removeArtifacts: false
+          replacesArtifacts: true
+          skipIfReleaseExists: false
+          updateOnlyUnreleased: false
