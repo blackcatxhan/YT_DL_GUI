@@ -13,7 +13,6 @@ YT-DLP GUI là một ứng dụng giao diện người dùng đơn giản giúp 
   - [Xây Dựng EXE Không Console](#xây-dựng-exe-không-console)
 - [Xuất và Sử Dụng Cookies](#xuất-và-sử-dụng-cookies)
 - [Troubleshooting](#troubleshooting)
-- [Liên Hệ](#liên-hệ)
 
 ## 🔍 **Đặc Tả**
 
