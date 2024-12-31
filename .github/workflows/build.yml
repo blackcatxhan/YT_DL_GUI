@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: write
+  # Các quyền khác nếu cần
 
 jobs:
   build:
@@ -18,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.13.1'
+          python-version: '3.10'  # Thay thế bằng phiên bản Python bạn sử dụng
 
       - name: Install Dependencies
         run: |
@@ -27,30 +28,23 @@ jobs:
 
       - name: Build EXE Có Console
         run: |
-          pyinstaller --onefile --console yt_dlp_gui.py
+          pyinstaller --onefile --console --name yt_dlp_gui_console yt_dlp_gui.py
         shell: cmd
 
       - name: Build EXE Không Console
         run: |
-          pyinstaller --onefile --noconsole yt_dlp_gui.py
+          pyinstaller --onefile --noconsole --name yt_dlp_gui_no_console yt_dlp_gui.py
         shell: cmd
 
-      - name: Upload EXE Có Console
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Release Assets
+        uses: ncipollo/release-action@v1
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./dist/yt_dlp_gui.exe
-          asset_name: yt_dlp_gui_console.exe
-          asset_content_type: application/octet-stream
-
-      - name: Upload EXE Không Console
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./dist/yt_dlp_gui.exe
-          asset_name: yt_dlp_gui_no_console.exe
-          asset_content_type: application/octet-stream
+          artifacts: |
+            dist/yt_dlp_gui_console.exe
+            dist/yt_dlp_gui_no_console.exe
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: ${{ github.event.release.name }}
+          tag: ${{ github.event.release.tag_name }}
+          body: ${{ github.event.release.body }}
+          draft: false
+          prerelease: false
